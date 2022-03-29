@@ -216,7 +216,7 @@ var addHighscore = function(){
         return false;
     }
     var userScore = [initials , timerCount];
-    if(highscores.length==0){
+    if(highscores.length===0 || highscores.length == null){
         highscores.push(userScore);
         return true;
     }
