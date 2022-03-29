@@ -143,26 +143,17 @@ var respondToAnswer = function(targetEL){
 };
             
 var showHighscores = function(){
-    
+
+    clearScreen();
+    largeText.textContent = "Highscores:"
+    for(i=0; i<highscores.length; i++){
+        var newScoreEL = document.createElement("li");
+        newScoreEL.className = "highscore";
+        newScoreEL.textContent = (i+1) + ".) " + highscores[i][0] + ": " + highscores[i][1];
+        answers.appendChild(newScoreEL);
+    }
 };
 
-var addHighscore = function(){
-    var initials = document.querySelector("input[id='#userInitials']").value
-    var userScore = [initials , timerCount];
-    if(highscores.length==0){
-        highscores.push(userScore);
-    }
-    /* WORKING ON HIGHSCORE STORAGE */
-    else{
-        /* var tooLow = false */
-        for(i=0; i<highscores.length; i++){
-            if(timerCount>highscores[i][1]){
-                highscores.splice(i,0);
-                break;
-            }
-        };
-    };
-};
 
 var startGame = function(){
     
@@ -184,7 +175,35 @@ var endGame = function(){
     answers.appendChild(submitEl);
     questionNumber=0; 
 };
-            
+
+var addHighscore = function(){
+    var initials = document.querySelector("input[id='userInitials']").value
+    if(initials.length>2 || initials.length===0){
+        window.alert("Please input your first and last intitial only!");
+        document.getElementById('userInitials').value = '';
+        return false;
+    }
+    var userScore = [initials , timerCount];
+    if(highscores.length==0){
+        highscores.push(userScore);
+        return true;
+    }
+    /* WORKING ON HIGHSCORE STORAGE */
+    else{
+        for(i=0; i<highscores.length; i++){
+            if(timerCount>highscores[i][1]){
+                highscores.splice(i,0,userScore);
+                return true;
+            };
+            if(i==highscores.length-1){
+                highscores.push(userScore)
+                return true;
+            };
+        };
+    };
+    saveScores();
+};
+
 var createStartScreen = function(){
     highscoreLink.textContent = 'View Highscores';
     largeText.textContent = 'Welcome to the Coding Quiz!';
@@ -207,11 +226,20 @@ var answerHandler = function(event){
         respondToAnswer(targetEL);
     } 
     else if(targetEL.matches('#submit-button')){
-
+        var hsAdded = addHighscore();
+        if(hsAdded){
+        var input= document.querySelector("input[id='userInitials']");
+        textWrapper.removeChild(input);
+        showHighscores();
+        };
     }
 };
 
+var saveScores = function(){
+    localStorage.setItem("highscores", JSON.stringify(highscores));
+};
 
+highscores=JSON.parse(localStorage.getItem("highscores"));
 answers.addEventListener("click", answerHandler);
 
 createStartScreen();
