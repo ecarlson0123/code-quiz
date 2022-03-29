@@ -5,6 +5,7 @@ var correctnessWrapper = document.querySelector('.correctness-wrapper');
 var subtext = document.querySelector('#subtext');
 var largeText = document.querySelector('#large-text');
 var textWrapper = document.querySelector('#text-wrapper');
+var buttons = document.querySelector('#buttons');
 var timerCount = 60;
 var questionNumber= 0;
 var timeInterval;
@@ -53,7 +54,7 @@ var createQuestion = function(){
     for( i=0; i<answerLength; i++){
         randomSelect=answerNumbers[Math.floor(Math.random()*answerNumbers.length)];
         var newAnswer = document.createElement("li");
-        newAnswer.className="answer"
+        newAnswer.className="answer button"
         newAnswer.textContent= answersText["question"+questionNumber][randomSelect];
         if(randomSelect===0){
             newAnswer.id="correct"
@@ -75,7 +76,10 @@ var createQuestion = function(){
 var clearScreen = function(){
     while(answers.firstChild){
         answers.removeChild(answers.firstChild);
-    }
+    };
+    while(buttons.firstChild){
+        buttons.removeChild(buttons.firstChild);
+    };
     subtext.textContent="";
     
 };
@@ -152,6 +156,16 @@ var showHighscores = function(){
         newScoreEL.textContent = (i+1) + ".) " + highscores[i][0] + ": " + highscores[i][1];
         answers.appendChild(newScoreEL);
     }
+    var resetScores = document.createElement("li");
+    resetScores.id = "reset-button"
+    resetScores.className = "button"
+    resetScores.textContent = "Reset Highscores"
+    buttons.appendChild(resetScores);
+    var restart = document.createElement("li");
+    restart.className = "button";
+    restart.id = "restart-button";
+    restart.textContent = "Restart"
+    buttons.appendChild(restart);
 };
 
 
@@ -170,9 +184,10 @@ var endGame = function(){
     userInitials.id="userInitials";
     var submitEl = document.createElement('li');
     submitEl.id = "submit-button";
+    submitEl.className = "button"
     submitEl.textContent = "SUBMIT"
     textWrapper.appendChild(userInitials);
-    answers.appendChild(submitEl);
+    buttons.appendChild(submitEl);
     questionNumber=0; 
 };
 
@@ -188,7 +203,6 @@ var addHighscore = function(){
         highscores.push(userScore);
         return true;
     }
-    /* WORKING ON HIGHSCORE STORAGE */
     else{
         for(i=0; i<highscores.length; i++){
             if(timerCount>highscores[i][1]){
@@ -210,8 +224,9 @@ var createStartScreen = function(){
     subtext.textContent = 'You will gain a point for every correct answer and lose time for every incorrect answer! Work fast, but be diligent!';
     var startButton = document.createElement("li");
     startButton.id = "start-button";
+    startButton.className = "button"
     startButton.textContent = "Start Game!"
-    answers.appendChild(startButton);
+    buttons.appendChild(startButton);
 };
             
 var answerHandler = function(event){
@@ -233,6 +248,15 @@ var answerHandler = function(event){
         showHighscores();
         };
     }
+    else if(targetEL.matches('#reset-button')){
+        highscores=[];
+        saveScores();
+        showHighscores();
+    }
+    else if(targetEL.matches('#restart-button')){
+        clearScreen();
+        createStartScreen();
+    }
 };
 
 var saveScores = function(){
@@ -240,6 +264,6 @@ var saveScores = function(){
 };
 
 highscores=JSON.parse(localStorage.getItem("highscores"));
-answers.addEventListener("click", answerHandler);
+document.addEventListener("click", answerHandler);
 
 createStartScreen();
