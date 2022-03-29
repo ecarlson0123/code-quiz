@@ -80,6 +80,9 @@ var clearScreen = function(){
     while(buttons.firstChild){
         buttons.removeChild(buttons.firstChild);
     };
+    while(textWrapper.lastChild.className=='#userInitials'){
+        textWrapper.removeChild(textWrapper.lastChild);
+    }
     subtext.textContent="";
     
 };
@@ -89,25 +92,26 @@ var timeFunction = function(string){
     switch(string){
         case "start":
             timerCount=60;
-            timer.textContent=timerCount;
+            timer.textContent="Time left: " + timerCount;
             timeInterval= setInterval(function(){
                 if(timerCount>=1){
                     timerCount--;
-                    timer.textContent=timerCount
+                    timer.textContent="Time left: " + timerCount
                 } else if (timerCount <=0){
                     clearInterval(timeInterval);
-                    timer.textContent=0;
+                    timer.textContent="Time left: 0";
                     endGame();
                 }}, 1000);
                 break;
         case "wrong":
             if (timerCount>5){
                 timerCount-=5;
+                timer.textContent="Time left: " + timerCount;
             }
             else if(timerCount<=5){
                 clearInterval(timeInterval);
                 timerCount=0;
-                timer.textContent=0
+                timer.textContent="Time left: 0";
                 endGame();
             };
             break;
@@ -147,7 +151,11 @@ var respondToAnswer = function(targetEL){
 };
             
 var showHighscores = function(){
-
+    while(correctnessWrapper.firstChild){
+        correctnessWrapper.removeChild(correctnessWrapper.firstChild);
+    };
+    highscoreLink.textContent="";
+    highscoreLink.style.backgroundColor="white";
     clearScreen();
     largeText.textContent = "Highscores:"
     for(i=0; i<highscores.length; i++){
@@ -166,11 +174,6 @@ var showHighscores = function(){
     restart.id = "restart-button";
     restart.textContent = "Restart"
     buttons.appendChild(restart);
-};
-
-
-var startGame = function(){
-    
 };
 
 var endGame = function(){
@@ -219,7 +222,11 @@ var addHighscore = function(){
 };
 
 var createStartScreen = function(){
+    questionNumber=0;
+    timer.textContent = "Time left: NA"
     highscoreLink.textContent = 'View Highscores';
+    highscoreLink.style.backgroundColor="var(--primary-color)"
+    highscoreLink.id = "viewHighscores-button"
     largeText.textContent = 'Welcome to the Coding Quiz!';
     subtext.textContent = 'You will gain a point for every correct answer and lose time for every incorrect answer! Work fast, but be diligent!';
     var startButton = document.createElement("li");
@@ -233,7 +240,6 @@ var answerHandler = function(event){
     var targetEL= event.target;
     if(targetEL.matches('#start-button')){
         questionNumber++;
-        clearScreen();
         createQuestion();
         timeFunction("start");
     }
@@ -256,6 +262,10 @@ var answerHandler = function(event){
     else if(targetEL.matches('#restart-button')){
         clearScreen();
         createStartScreen();
+    }
+    else if(targetEL.matches('#viewHighscores-button')){
+        timeFunction("end");
+        showHighscores();
     }
 };
 
