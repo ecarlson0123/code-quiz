@@ -293,7 +293,11 @@ var saveScores = function(){
 };
 
 /* RETRIEVES LOCAL STORAGE HIGHSCORES */
-highscores=JSON.parse(localStorage.getItem("highscores"));
+var retrieveScores = function(){
+    highscores=JSON.parse(localStorage.getItem("highscores"));
+    if (highscores===null){
+        highscores=[];
+    }
 
 /* LISTENS FOR AN EVENT SUCH AS A CLICK */
 document.addEventListener("click", answerHandler);
