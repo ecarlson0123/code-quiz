@@ -2,7 +2,7 @@
 # Challenge 4: Code Quiz
 
 ## The Challenge Summary
-Create a quiz on the topic of coding with the following requirements:
+Create a quiz on the topic of coding with the following requirements:  
 GIVEN I am taking a code quiz  
 WHEN I click the start button  
 THEN a timer starts and I am presented with a question  
@@ -46,4 +46,4 @@ A couple small bugs appeared but thanks to the separation of variables, it was e
 
 ## Links:
 ![Repository Link](https://github.com/ecarlson0123/code-quiz)
-![Deployed Website]()
+![Deployed Website](https://ecarlson0123.github.io/code-quiz/)
