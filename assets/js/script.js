@@ -298,9 +298,11 @@ var retrieveScores = function(){
     if (highscores===null){
         highscores=[];
     }
+};
 
 /* LISTENS FOR AN EVENT SUCH AS A CLICK */
 document.addEventListener("click", answerHandler);
 
 /* STARTS THE PROGRAM */
+retrieveScores();
 createStartScreen();
