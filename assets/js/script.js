@@ -1,3 +1,5 @@
+
+/* DEFINE VARIABLES */
 var timer = document.querySelector('#timer');
 var highscoreLink = document.querySelector('#highscore-link');
 var answers = document.querySelector('#answers');
@@ -11,7 +13,7 @@ var questionNumber= 0;
 var timeInterval;
 var highscores = []
 
-
+/* ALL QUESTIONS */
 var questionsText= {
  "question1" : "1.) Which of the following is true about variable naming conventions in JavaScript?",
  "question2" : "2.) Which of the following is true about cookie handling in JavaScript?",
@@ -25,6 +27,7 @@ var questionsText= {
  "question10" : "10.) Which of the following function of Array object adds one or more elements to the front of an array and returns the new length of the array?"
 };
 
+/* ALL ANSWERS */
 /* THE FIRST ANSWER IN EACH DICTIONARY KEY IS THE CORRECT ANSWER!!! */
 var answersText = {
  "question1" : ["Both.", "JavaScript variable names must begin with a letter or the underscore character.", "JavaScript variable names are case sensitive.", "Neither."] , 
@@ -42,7 +45,7 @@ var answersText = {
 
  
  
- 
+ /* CREATES EACH QUESTION BY CHECKING AGAINST GLOBAL VARIABLE QUESTIONNUMBER */
 var createQuestion = function(){
     clearScreen();
     largeText.textContent = questionsText["question"+questionNumber];
@@ -73,6 +76,8 @@ var createQuestion = function(){
     };
 };
 
+
+/* CLEARS MOST ELEMENTS OF SCREEN, NOT ALL (INCREASES EFFICIENCY) */
 var clearScreen = function(){
     while(answers.firstChild){
         answers.removeChild(answers.firstChild);
@@ -87,7 +92,7 @@ var clearScreen = function(){
     
 };
 
-
+/* DICTATES TIMEFLOW IN THE PROGRAM */
 var timeFunction = function(string){
     switch(string){
         case "start":
@@ -121,6 +126,8 @@ var timeFunction = function(string){
         };
 };
 
+
+/* DETERMINES IF THE SELECTED ANSWER IS CORRECT AND CREATES A NOFIFICATION ON THE BOTTOM OF THE SCREEN */
 var respondToAnswer = function(targetEL){
     while(correctnessWrapper.firstChild){
         correctnessWrapper.removeChild(correctnessWrapper.firstChild);
@@ -149,7 +156,9 @@ var respondToAnswer = function(targetEL){
         console.log(questionNumber);
     };
 };
-            
+       
+
+/* SHOWS THE LIST OF HIGHSCORES, ALSO CREATES RESTART AND RESET HIGHSCORES BUTTONS */
 var showHighscores = function(){
     while(correctnessWrapper.firstChild){
         correctnessWrapper.removeChild(correctnessWrapper.firstChild);
@@ -176,6 +185,8 @@ var showHighscores = function(){
     buttons.appendChild(restart);
 };
 
+
+/* THIS IS USED WHENEVER THE GAME SHOULD END (TIME RUNS OUT OR OUT OF QUESTIONS) */
 var endGame = function(){
     while(correctnessWrapper.firstChild){
         correctnessWrapper.removeChild(correctnessWrapper.firstChild);
@@ -194,6 +205,8 @@ var endGame = function(){
     questionNumber=0; 
 };
 
+
+/* DETERMINES HOW HIGH THE SCORE IS ON THE LEADERBOARD AND SAVES IT TO THE LOCAL STORAGE */
 var addHighscore = function(){
     var initials = document.querySelector("input[id='userInitials']").value
     if(initials.length>2 || initials.length===0){
@@ -221,6 +234,7 @@ var addHighscore = function(){
     saveScores();
 };
 
+/* CREATES THE STARTING SCREEN WITH A START BUTTON AND WELCOME MESSAGES */
 var createStartScreen = function(){
     questionNumber=0;
     timer.textContent = "Time left: NA"
@@ -235,7 +249,9 @@ var createStartScreen = function(){
     startButton.textContent = "Start Game!"
     buttons.appendChild(startButton);
 };
-            
+    
+
+/* WHEN SOMETHING IS CLICKED DOES AN ACTION BASED ON WHAT IS CLICKED */
 var answerHandler = function(event){
     var targetEL= event.target;
     if(targetEL.matches('#start-button')){
@@ -269,11 +285,17 @@ var answerHandler = function(event){
     }
 };
 
+
+/* SAVES SCORES TO LOCAL STORAGE */
 var saveScores = function(){
     localStorage.setItem("highscores", JSON.stringify(highscores));
 };
 
+/* RETRIEVES LOCAL STORAGE HIGHSCORES */
 highscores=JSON.parse(localStorage.getItem("highscores"));
+
+/* LISTENS FOR AN EVENT SUCH AS A CLICK */
 document.addEventListener("click", answerHandler);
 
+/* STARTS THE PROGRAM */
 createStartScreen();

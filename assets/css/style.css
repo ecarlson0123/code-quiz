@@ -37,6 +37,9 @@ header > *{
     background-color: var(--primary-color);
 }
 
+/* ####################################### */
+/* Question/Welcome Text Styling */
+
 #text-wrapper{
     display: flex;
     flex-wrap: wrap;
@@ -66,6 +69,9 @@ header > *{
     color: var(--primary-color);
     
 }
+
+/* ####################################### */
+/* Answers Section Styling */
 
 .answers-wrapper{
     display:flex ;
@@ -101,6 +107,9 @@ header > *{
     font-weight: bold;
 }
 
+/* ####################################### */
+/* Button Styling */
+
 .buttons-wrapper{
     display:flex ;
     justify-content: space-around;
@@ -130,6 +139,9 @@ header > *{
     color: var(--tertiary-color);
     padding: 10px,;
 }
+
+/* ####################################### */
+/* Correctness Section Styling */
 
 .correctness-wrapper{
     width: 100vw;
