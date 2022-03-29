@@ -85,9 +85,10 @@ var clearScreen = function(){
     while(buttons.firstChild){
         buttons.removeChild(buttons.firstChild);
     };
-    while(textWrapper.lastChild.className=='#userInitials'){
-        textWrapper.removeChild(textWrapper.lastChild);
-    }
+    if(textWrapper.querySelector('#userInitials')!==null){
+        remove=textWrapper.querySelector('#userInitials');
+        textWrapper.removeChild(remove);
+    };
     subtext.textContent="";
     
 };
