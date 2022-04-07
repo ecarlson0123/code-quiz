@@ -232,6 +232,7 @@ var addHighscore = function(){
             };
         };
     };
+    console.log()
     saveScores();
 };
 
@@ -267,6 +268,7 @@ var answerHandler = function(event){
         var hsAdded = addHighscore();
         if(hsAdded){
         var input= document.querySelector("input[id='userInitials']");
+        saveScores();
         textWrapper.removeChild(input);
         showHighscores();
         };
